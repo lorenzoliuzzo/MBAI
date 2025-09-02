@@ -1,1 +1,1 @@
-= :basketball: Money Ball AI :basketball:
+# :basketball: Money Ball AI :basketball:
