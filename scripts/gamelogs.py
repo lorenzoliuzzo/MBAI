@@ -17,8 +17,8 @@ def save_gamelogs_from_year(year):
     assert set(df_T['GAME_ID']) == set(df_P['GAME_ID']), "GAME_ID mismatches!"
     game_ids = df_T['GAME_ID'].unique()
 
-    # basic asserts on basketball rules
-    assert df_T['WL'].nunique() == df_P['WL'].nunique() == 2, "A basketball game can only finish with a win or a loss!"
+    # basic asserts on baskeball rules
+    assert df_T['WL'].nunique() == df_P['WL'].nunique() == 2, "A basketball game can only finish with a win or a lose!"
     
     for game_id in game_ids:
         teams_df = df_T[df_T['GAME_ID'] == game_id]
@@ -26,7 +26,7 @@ def save_gamelogs_from_year(year):
         
         players_df = df_P[df_P['GAME_ID'] == game_id]
         for team_id in teams_df['TEAM_ID']:
-            assert len(players_df[players_df['TEAM_ID'] == team_id]) >= 5, f"Game {game_id}, Team {team_id} has only {len(players_df[players_df['TEAM_ID'] == team_id])} players"
+            assert len(players_df[players_df['TEAM_ID'] == team_id]) >= 5, f"Game {game_id}, Team {team_id} has only {len(team_players)} players"
 
     
     # check for game counts for each team
@@ -54,24 +54,24 @@ def save_gamelogs_from_year(year):
     
     df_P['PLUS_MINUS'] = pd.to_numeric(df_P['PLUS_MINUS'], downcast='signed')
     
-    
     # save dfs as csv in the data directory
-    season_path = f"~/MBAI/data/rs{season_id}/"
+    data_path = Path("~/MBAI/data").expanduser()
+    season_path = data_path / f"rs{season_id}"
     for game_id in tqdm(game_ids):
-        game_path = season_path + f"games/g{game_id}/"
+        game_path = season_path / "games" / f"g{game_id}"
         try: 
-            Path(game_path).expanduser().mkdir(parents=True, exist_ok=True)
+            game_path.mkdir(parents=True, exist_ok=True)
         except Exception as e:
             print(f"Error in creating the game directory: {e}")
     
         teams_df = df_T[df_T['GAME_ID'] == game_id].drop('GAME_ID', axis=1)
         try:
-            teams_df.to_csv(game_path + "teams.csv", index=False)
+            teams_df.to_csv(game_path / "teams.csv", index=False)
         except Exception as e:
             print(f"Error in saving the teams csv: {e}")
     
         players_df = df_P[df_P['GAME_ID'] == game_id].drop('GAME_ID', axis=1)
         try:
-            players_df.to_csv(game_path + "players.csv", index=False)
+            players_df.to_csv(game_path / "players.csv", index=False)
         except Exception as e:
             print(f"Error in saving the players csv: {e}")
