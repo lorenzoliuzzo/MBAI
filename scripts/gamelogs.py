@@ -17,7 +17,7 @@ def save_gamelogs_from_year(year):
     assert set(df_T['GAME_ID']) == set(df_P['GAME_ID']), "GAME_ID mismatches!"
     game_ids = df_T['GAME_ID'].unique()
 
-    # basic asserts on baskeball rules
+    # basic asserts on basketball rules
     assert df_T['WL'].nunique() == df_P['WL'].nunique() == 2, "A basketball game can only finish with a win or a lose!"
     
     for game_id in game_ids:
