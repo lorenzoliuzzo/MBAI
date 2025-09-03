@@ -26,7 +26,7 @@ def save_gamelogs_from_year(year):
         
         players_df = df_P[df_P['GAME_ID'] == game_id]
         for team_id in teams_df['TEAM_ID']:
-            assert len(players_df[players_df['TEAM_ID'] == team_id]) >= 5, f"Game {game_id}, Team {team_id} has only {len(team_players)} players"
+            assert len(players_df[players_df['TEAM_ID'] == team_id]) >= 5, f"Game {game_id}, Team {team_id} has only {len(players_df[players_df['TEAM_ID'] == team_id])} players"
 
     
     # check for game counts for each team
