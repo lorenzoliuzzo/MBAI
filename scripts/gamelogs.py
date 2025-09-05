@@ -58,20 +58,20 @@ def save_gamelogs_from_year(year):
     data_path = Path("~/MBAI/data").expanduser()
     season_path = data_path / f"rs{season_id}"
     for game_id in tqdm(game_ids):
-        game_path = season_path / "games" / f"g{game_id}"
+        gamelogs_path = season_path / f"g{game_id}" / "gamelogs" 
         try: 
-            game_path.mkdir(parents=True, exist_ok=True)
+            gamelogs_path.mkdir(parents=True, exist_ok=True)
         except Exception as e:
             print(f"Error in creating the game directory: {e}")
     
         teams_df = df_T[df_T['GAME_ID'] == game_id].drop('GAME_ID', axis=1)
         try:
-            teams_df.to_csv(game_path / "teams.csv", index=False)
+            teams_df.to_csv(gamelogs_path / "teams.csv", index=False)
         except Exception as e:
             print(f"Error in saving the teams csv: {e}")
     
         players_df = df_P[df_P['GAME_ID'] == game_id].drop('GAME_ID', axis=1)
         try:
-            players_df.to_csv(game_path / "players.csv", index=False)
+            players_df.to_csv(gamelogs_path / "players.csv", index=False)
         except Exception as e:
             print(f"Error in saving the players csv: {e}")
