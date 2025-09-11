@@ -204,6 +204,7 @@ class NBAScraper:
 
         if set(game_ids_from_team) != set(game_ids_from_player): 
             logger.error("❌ Error: GAME_ID mismatches between team and player gamelogs. Game actions will not be scraped!")
+            return None
         else:
             total_games = len(game_ids_from_team)
             logger.info(f"🚀 Fetching game actions for {total_games} games.")
