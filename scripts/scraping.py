@@ -79,7 +79,7 @@ class NBAScraper:
         try:
             logs_dir.mkdir(parents=True, exist_ok=True)
         except Exception as e:
-            print(f"Unexpected error creating logs directory: {str(e)}")
+            self.logger.error(f"Unexpected error creating logs directory: {str(e)}")
                     
         timestamp = datetime.now().strftime("%Y%m%d_%H%M")
         log_file = f"scraping_{timestamp}.log"
