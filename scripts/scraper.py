@@ -219,7 +219,7 @@ class NBAScraper:
         try:
             game_dir.mkdir(parents=True, exist_ok=True)
         except Exception as e:
-            season_logger.error(f"❌ Unexpected error in creating season directory: {str(e)}")
+            season_logger.error(f"❌ Unexpected error in creating game directory: {str(e)}")
         
         logger.info(f"🚀 Fetching game actions.")
         raw_game_actions = self.api_call(logger, lambda: PlayByPlay(game_id))  
