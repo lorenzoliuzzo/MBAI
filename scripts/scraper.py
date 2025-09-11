@@ -1,5 +1,6 @@
 import pandas as pd
 import logging
+import logging.handlers
 from pathlib import Path
 from time import time, sleep
 from datetime import datetime
@@ -179,7 +180,7 @@ class NBAScraper:
         logger.info(f"🚀 Fetching team gamelogs.")
         raw_team_gamelogs = self.api_call(logger, lambda: LeagueGameLog(season_id, player_or_team_abbreviation='T'))
         if raw_team_gamelogs is None:
-            season_logger.error("❌ Error in fetching team gamelogs.")
+            logger.error("❌ Error in fetching team gamelogs.")
         else: 
             try: 
                 df = raw_team_gamelogs.get_data_frames()[0]
