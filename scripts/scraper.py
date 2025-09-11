@@ -205,7 +205,10 @@ class NBAScraper:
         if set(game_ids_from_team) != set(game_ids_from_player): 
             logger.error("❌ Error: GAME_ID mismatches between team and player gamelogs. Game actions will not be scraped!")
         else:
-            for game_id in game_ids_from_team:
+            total_games = len(game_ids_from_team)
+            logger.info(f"🚀 Fetching game actions for {total_games} games.")
+            for i, game_id in enumerate(game_ids_from_team, 1):
+                if i % 100 == 0: logger.info(f"📊 Progress: {i}/{total_games} games processed")
                 self.scrape_game(season_id, game_id)
             
         logger.info(f"✅ Successfully processed season data in {time() - start_time:.2f}s")
@@ -231,6 +234,6 @@ class NBAScraper:
                 df = pd.DataFrame(raw_game_actions.get_dict()['game']['actions'])
                 df.to_csv(game_dir / "raw_actions.csv", index=False)
             except Exception as e:
-                logger.error("❌ Error in saving game actions.")
+                logger.error(f"❌ Error in saving game actions: {str(e)}.")
 
         logger.info(f"✅ Successfully processed game data in {time() - start_time:.2f}s")
