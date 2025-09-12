@@ -165,9 +165,10 @@ class NBAScraper:
         return logger
 
         
-    def scrape_season(self, season_id):        
+    def scrape_season(self, starting_year):        
         start_time = time()
 
+        season_id = f"2{starting_year}"
         season_dir = season_path(season_id)
         try:
             season_dir.mkdir(parents=True, exist_ok=True)
@@ -178,7 +179,7 @@ class NBAScraper:
         
         game_ids_from_team = []        
         logger.info(f"🚀 Fetching team gamelogs.")
-        raw_team_gamelogs = self.api_call(logger, lambda: LeagueGameLog(season_id, player_or_team_abbreviation='T'))
+        raw_team_gamelogs = self.api_call(logger, lambda: LeagueGameLog(season=starting_year, player_or_team_abbreviation='T'))
         if raw_team_gamelogs is None:
             logger.error("❌ Error in fetching team gamelogs.")
         else: 
@@ -191,7 +192,7 @@ class NBAScraper:
 
         game_ids_from_player = []
         logger.info(f"🚀 Fetching player gamelogs.")
-        raw_player_gamelogs = self.api_call(logger, lambda: LeagueGameLog(season_id, player_or_team_abbreviation='P'))
+        raw_player_gamelogs = self.api_call(logger, lambda: LeagueGameLog(season=starting_year, player_or_team_abbreviation='P'))
         if raw_player_gamelogs is None:
             logger.error(f"❌ Error in fetching player gamelogs.")
         else: 
