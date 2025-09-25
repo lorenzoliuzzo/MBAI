@@ -39,3 +39,13 @@ def load_players_gamelogs(season_year):
     ]
 
     return pd.concat(dfs).reset_index(drop=True)
+
+
+def load_all_teams_gamelogs():
+    dfs = []
+    for season_dir in data_path.iterdir():
+        for game_dir in season_dir.iterdir():
+            if game_dir.is_dir() and game_dir.name.startswith('g'):
+                dfs.append(pd.read_parquet(game_dir / "teams_gamelog.parquet"))
+
+    return pd.concat(dfs).reset_index(drop=True)
